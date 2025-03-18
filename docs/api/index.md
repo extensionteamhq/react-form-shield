@@ -12,6 +12,9 @@ This document provides detailed information about the API of the react-form-shie
     - [Components](#components)
       - [HoneypotField](#honeypotfield)
       - [ChallengeDialog](#challengedialog)
+    - [Adapters](#adapters)
+      - [React Hook Form Adapter](#react-hook-form-adapter)
+      - [Formik Adapter](#formik-adapter)
     - [Utilities](#utilities)
   - [Server-Side API](#server-side-api)
     - [Express Middleware](#express-middleware)
@@ -168,6 +171,85 @@ function ContactForm() {
             />
         </>
     );
+}
+```
+
+### Adapters
+
+The package provides adapters for popular form libraries to simplify integration. For detailed documentation, see [Adapters](./adapters.md).
+
+#### React Hook Form Adapter
+
+Adapter for integrating with React Hook Form.
+
+```tsx
+const { register, handleSubmit, honeypotProps /* ... */ } = withReactHookForm(
+    form,
+    options
+);
+```
+
+**Parameters:**
+
+- `form`: The return value from React Hook Form's `useForm` hook
+- `options` (optional): Configuration options for the form shield
+
+**Returns:**
+
+An enhanced form object with additional form shield functionality.
+
+**Example:**
+
+```tsx
+import { useForm } from "react-hook-form";
+import { withReactHookForm } from "react-form-shield";
+
+function ContactForm() {
+    const form = useForm();
+    const { register, handleSubmit, honeypotProps } = withReactHookForm(form);
+
+    // Use these values in your form
+}
+```
+
+#### Formik Adapter
+
+Adapter for integrating with Formik.
+
+```tsx
+const {
+    getFieldProps,
+    handleSubmit,
+    handleFieldFocus,
+    honeypotProps /* ... */,
+} = withFormik(formik, options);
+```
+
+**Parameters:**
+
+- `formik`: The return value from Formik's `useFormik` hook
+- `options` (optional): Configuration options for the form shield
+
+**Returns:**
+
+An enhanced form object with additional form shield functionality.
+
+**Example:**
+
+```tsx
+import { useFormik } from "formik";
+import { withFormik } from "react-form-shield";
+
+function ContactForm() {
+    const formik = useFormik({
+        initialValues: { name: "", email: "" },
+        onSubmit: (values) => console.log(values),
+    });
+
+    const { getFieldProps, handleSubmit, handleFieldFocus, honeypotProps } =
+        withFormik(formik);
+
+    // Use these values in your form
 }
 ```
 
