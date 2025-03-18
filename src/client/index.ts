@@ -20,3 +20,6 @@ export * from './hooks';
 
 // Export components
 export * from './components';
+
+// Export adapters
+export * from './adapters';

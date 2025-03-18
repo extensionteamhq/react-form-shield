@@ -5,7 +5,8 @@ import { babel } from "@rollup/plugin-babel";
 import { terser } from "rollup-plugin-terser";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import dts from "rollup-plugin-dts";
-import packageJson from "./package.json" assert { type: "json" };
+import { readFileSync } from "fs";
+const packageJson = JSON.parse(readFileSync("./package.json", "utf8"));
 
 const extensions = [".js", ".jsx", ".ts", ".tsx"];
 
@@ -74,7 +75,7 @@ export default [
     },
     // TypeScript declaration files
     {
-        input: "dist/dts/index.d.ts",
+        input: "dist/index.d.ts",
         output: [{ file: "dist/index.d.ts", format: "es" }],
         plugins: [dts()],
     },

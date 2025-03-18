@@ -3,9 +3,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import {
-    useFormShield,
     ChallengeDialog,
     HoneypotField,
+    withReactHookForm,
 } from "react-form-shield";
 
 // Define form schema with Zod
@@ -28,8 +28,15 @@ const ContactForm: React.FC = () => {
         },
     });
 
-    // Initialize form shield
+    // Form state
+    const [isSubmitting, setIsSubmitting] = React.useState(false);
+    const [isSubmitted, setIsSubmitted] = React.useState(false);
+    const [error, setError] = React.useState<string | null>(null);
+
+    // Initialize form shield with React Hook Form adapter
     const {
+        register,
+        handleSubmit,
         honeypotProps,
         showChallengeDialog,
         setShowChallengeDialog,
@@ -37,30 +44,18 @@ const ContactForm: React.FC = () => {
         challengeAnswer,
         setChallengeAnswer,
         handleChallengeSubmit,
-        validateSubmission,
         getFormShieldData,
-    } = useFormShield({
+    } = withReactHookForm(form, {
         onError: (error) => {
             console.error(error);
             setError(error);
         },
     });
 
-    // Form state
-    const [isSubmitting, setIsSubmitting] = React.useState(false);
-    const [isSubmitted, setIsSubmitted] = React.useState(false);
-    const [error, setError] = React.useState<string | null>(null);
-
     // Handle form submission
     const onSubmit = async (values: FormValues) => {
         setError(null);
-
-        // Validate submission with form shield
-        const validationResult = validateSubmission(values);
-
-        if (validationResult.passed) {
-            await submitForm(values);
-        }
+        await submitForm(values);
     };
 
     // Submit form data to the API
@@ -126,7 +121,7 @@ const ContactForm: React.FC = () => {
                 </div>
             )}
 
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 {/* Name field */}
                 <div>
                     <label
@@ -136,7 +131,7 @@ const ContactForm: React.FC = () => {
                     </label>
                     <input
                         id="name"
-                        {...form.register("name")}
+                        {...register("name")}
                         className="w-full px-3 py-2 border rounded-md"
                     />
                     {form.formState.errors.name && (
@@ -156,7 +151,7 @@ const ContactForm: React.FC = () => {
                     <input
                         id="email"
                         type="email"
-                        {...form.register("email")}
+                        {...register("email")}
                         className="w-full px-3 py-2 border rounded-md"
                     />
                     {form.formState.errors.email && (
@@ -175,7 +170,7 @@ const ContactForm: React.FC = () => {
                     </label>
                     <textarea
                         id="message"
-                        {...form.register("message")}
+                        {...register("message")}
                         rows={4}
                         className="w-full px-3 py-2 border rounded-md"
                     />
