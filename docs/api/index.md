@@ -10,6 +10,7 @@ This document provides detailed information about the API of the react-form-shie
     - [Hooks](#hooks)
       - [useFormShield](#useformshield)
     - [Components](#components)
+      - [FormShieldProvider](#formshieldprovider)
       - [HoneypotField](#honeypotfield)
       - [ChallengeDialog](#challengedialog)
     - [Adapters](#adapters)
@@ -88,6 +89,44 @@ function ContactForm() {
 ```
 
 ### Components
+
+#### FormShieldProvider
+
+A provider component that provides global configuration for FormShield through React Context.
+
+```tsx
+<FormShieldProvider {...props}>{children}</FormShieldProvider>
+```
+
+**Props:**
+
+- `children`: Child components
+- `settings` (optional): Global anti-spam settings
+- `onError` (optional): Global error handler
+- `honeypotFieldName` (optional): Global honeypot field name
+
+**Example:**
+
+```tsx
+import { FormShieldProvider } from "react-form-shield";
+
+function App() {
+    return (
+        <FormShieldProvider
+            settings={{
+                ENABLE_HONEYPOT: true,
+                ENABLE_TIME_DELAY: true,
+                ENABLE_CHALLENGE_DIALOG: true,
+                ENABLE_MULTIPLE_CHALLENGES: true,
+            }}
+            onError={(error) => console.error(error)}
+            honeypotFieldName="global_honeypot_field">
+            <ContactForm />
+            <FeedbackForm />
+        </FormShieldProvider>
+    );
+}
+```
 
 #### HoneypotField
 

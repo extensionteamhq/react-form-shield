@@ -193,5 +193,6 @@ Now that you have the basic integration working, you can:
 1. Customize the anti-spam settings
 2. Style the challenge dialog to match your application
 3. Integrate with form libraries like React Hook Form or Formik
+4. Use the FormShieldProvider for global configuration across multiple forms
 
-Check out the [Advanced Usage Guide](./advanced-usage.md) for more details on these topics.
+Check out the [Advanced Usage Guide](./advanced-usage.md) for more details on these topics, including how to use the FormShieldProvider to provide global configuration for all forms in your application.

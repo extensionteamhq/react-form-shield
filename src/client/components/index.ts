@@ -8,3 +8,4 @@
 
 export { ChallengeDialog } from './ChallengeDialog';
 export { HoneypotField } from './HoneypotField';
+export { FormShieldProvider } from './FormShieldProvider';

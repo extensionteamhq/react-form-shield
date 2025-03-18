@@ -7,8 +7,12 @@ sequenceDiagram
     participant User
     participant Form
     participant FormShield
+    participant FormShieldProvider
     participant Server
 
+    Note over FormShieldProvider: Provides global configuration
+
+    FormShieldProvider->>FormShield: Configure settings
     User->>Form: Fill out form
     Form->>FormShield: Track first interaction
     FormShield->>FormShield: Start time tracking
@@ -30,18 +34,23 @@ sequenceDiagram
 
 ## Flow Description
 
-1. **User Interaction**:
+1. **Configuration**:
+
+    - FormShieldProvider provides global configuration to FormShield
+    - This configuration can be overridden at the form level if needed
+
+2. **User Interaction**:
 
     - User fills out the form
     - Form tracks the first interaction (focus)
     - FormShield starts time tracking
 
-2. **Form Submission**:
+3. **Form Submission**:
 
     - User submits the form
     - Form sends data to FormShield for validation
 
-3. **Validation Process**:
+4. **Validation Process**:
 
     - If time delay is not met:
         - FormShield shows challenge dialog
@@ -50,7 +59,7 @@ sequenceDiagram
         - FormShield validates the challenge
     - If validation passes, form proceeds with submission
 
-4. **Server-Side Validation**:
+5. **Server-Side Validation**:
     - Form sends data to server with anti-spam data
     - Server validates the anti-spam data
     - Server returns response

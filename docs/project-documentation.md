@@ -69,7 +69,7 @@ Example:
 ### Added
 
 - Support for custom challenge types
-- FormShieldProvider for global configuration
+- FormShieldProvider for global configuration across multiple forms
 
 ### Changed
 

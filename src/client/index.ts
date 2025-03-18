@@ -23,3 +23,6 @@ export * from './components';
 
 // Export adapters
 export * from './adapters';
+
+// Export context
+export { FormShieldContext, useFormShieldContext } from './FormShieldContext';

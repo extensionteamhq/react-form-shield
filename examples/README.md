@@ -16,6 +16,18 @@ npm install
 npm run dev
 ```
 
+### FormShieldProvider
+
+The `form-shield-provider` directory contains an example of using the `FormShieldProvider` component to provide global configuration for FormShield across multiple forms in an application.
+
+To run this example:
+
+```bash
+cd form-shield-provider
+npm install
+npm start
+```
+
 ### Express.js
 
 The `express` directory contains an example of using react-form-shield with [Express.js](https://expressjs.com/), a popular web framework for Node.js.
@@ -45,8 +57,9 @@ npm run dev
 Each example demonstrates a different aspect of react-form-shield:
 
 1. **React Hook Form**: Shows how to integrate the client-side components and hooks with React Hook Form.
-2. **Express.js**: Shows how to use the server-side middleware with Express.js.
-3. **Next.js**: Shows how to use the server-side HOC with Next.js API routes.
+2. **FormShieldProvider**: Shows how to use the FormShieldProvider component to provide global configuration for multiple forms.
+3. **Express.js**: Shows how to use the server-side middleware with Express.js.
+4. **Next.js**: Shows how to use the server-side HOC with Next.js API routes.
 
 Feel free to explore these examples to understand how to use react-form-shield in your own projects.
 
@@ -67,10 +80,25 @@ import {
     useFormShield,
     ChallengeDialog,
     HoneypotField,
+    FormShieldProvider,
 } from "react-form-shield";
 ```
 
-3. Use the `useFormShield` hook in your form component:
+3. (Optional) Wrap your application with FormShieldProvider for global configuration:
+
+```jsx
+<FormShieldProvider
+    settings={{
+        ENABLE_HONEYPOT: true,
+        ENABLE_TIME_DELAY: true,
+        ENABLE_CHALLENGE_DIALOG: true,
+    }}
+    onError={(error) => console.error(error)}>
+    <App />
+</FormShieldProvider>
+```
+
+4. Use the `useFormShield` hook in your form component:
 
 ```jsx
 const {
@@ -85,7 +113,7 @@ const {
 } = useFormShield();
 ```
 
-4. Add the `HoneypotField` and `ChallengeDialog` components to your form:
+5. Add the `HoneypotField` and `ChallengeDialog` components to your form:
 
 ```jsx
 <form onSubmit={handleSubmit}>
@@ -104,7 +132,7 @@ const {
 </form>
 ```
 
-5. On the server side, use the appropriate middleware or HOC:
+6. On the server side, use the appropriate middleware or HOC:
 
 ```js
 // Express.js

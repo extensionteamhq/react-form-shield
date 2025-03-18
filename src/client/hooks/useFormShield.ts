@@ -23,6 +23,7 @@ import {
     generateHoneypotFieldName,
     mergeSettings
 } from "../utils";
+import { useFormShieldContext } from "../FormShieldContext";
 
 /**
  * Interface for the useFormShield hook return value
@@ -94,10 +95,20 @@ interface UseFormShieldReturn {
  * @returns {UseFormShieldReturn} Form shield state and handlers
  */
 export const useFormShield = (options: FormShieldOptions = {}): UseFormShieldReturn => {
-    const { onError, honeypotFieldName: customHoneypotFieldName } = options;
+    // Get context values
+    const context = useFormShieldContext();
 
-    // Merge settings with defaults
-    const settings = mergeSettings(options.settings);
+    // Merge options with context values, giving priority to hook options
+    const {
+        onError = context.onError,
+        honeypotFieldName: customHoneypotFieldName = context.honeypotFieldName
+    } = options;
+
+    // Merge settings with context settings and then with hook options
+    const settings = mergeSettings({
+        ...context.settings,
+        ...options.settings
+    });
 
     // Generate honeypot field name if not provided
     const [honeypotFieldName] = useState(customHoneypotFieldName || generateHoneypotFieldName());

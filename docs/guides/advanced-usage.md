@@ -255,9 +255,85 @@ const handleSubmit = async (e) => {
 };
 ```
 
+## Global Configuration with FormShieldProvider
+
+If you have multiple forms in your application that should share the same anti-spam settings, you can use the `FormShieldProvider` component to provide global configuration:
+
+```jsx
+import { FormShieldProvider } from "react-form-shield";
+
+function App() {
+    return (
+        <FormShieldProvider
+            settings={{
+                ENABLE_HONEYPOT: true,
+                ENABLE_TIME_DELAY: true,
+                ENABLE_CHALLENGE_DIALOG: true,
+                ENABLE_MULTIPLE_CHALLENGES: true,
+                CHALLENGE_TIME_VALUE: 5,
+                MAX_CHALLENGES: 3,
+            }}
+            onError={(error) =>
+                console.error("Global form shield error:", error)
+            }
+            honeypotFieldName="global_honeypot_field">
+            <ContactForm />
+            <FeedbackForm />
+            <SubscriptionForm />
+        </FormShieldProvider>
+    );
+}
+```
+
+The `FormShieldProvider` component uses React Context to provide global configuration to all forms in your application. The `useFormShield` hook and framework adapters will automatically use this global configuration if available.
+
+You can still override specific settings at the form level if needed:
+
+```jsx
+// This will use the global configuration from FormShieldProvider
+// but override the ENABLE_MULTIPLE_CHALLENGES setting
+const formShield = useFormShield({
+    settings: {
+        ENABLE_MULTIPLE_CHALLENGES: false,
+    },
+});
+```
+
+### Using with Framework Adapters
+
+The framework adapters also work with the `FormShieldProvider`:
+
+```jsx
+// React Hook Form
+const {
+    register,
+    handleSubmit,
+    honeypotProps,
+    // ...other props
+} = withReactHookForm(form, {
+    // Override specific settings if needed
+    settings: {
+        ENABLE_MULTIPLE_CHALLENGES: false,
+    },
+});
+
+// Formik
+const {
+    getFieldProps,
+    handleSubmit,
+    honeypotProps,
+    // ...other props
+} = withFormik(formik, {
+    // Override specific settings if needed
+    settings: {
+        ENABLE_MULTIPLE_CHALLENGES: false,
+    },
+});
+```
+
 ## Multiple Forms on One Page
 
-If you have multiple forms on one page, you should use a unique honeypot field name for each form:
+If you have multiple forms on one page and you're not using the `FormShieldProvider`, you should use a unique honeypot field name for each form:
 
 ```jsx
 const form1Shield = useFormShield({
@@ -270,3 +346,21 @@ const form2Shield = useFormShield({
 ```
 
 This ensures that the honeypot fields don't conflict with each other.
+
+However, if you're using the `FormShieldProvider`, you can specify a global honeypot field name that will be used by all forms:
+
+```jsx
+<FormShieldProvider honeypotFieldName="global_honeypot_field">
+    {/* All forms will use the same honeypot field name */}
+    <ContactForm />
+    <FeedbackForm />
+</FormShieldProvider>
+```
+
+Or you can still override the honeypot field name at the form level if needed:
+
+```jsx
+const formShield = useFormShield({
+    honeypotFieldName: "custom_honeypot_field",
+});
+```

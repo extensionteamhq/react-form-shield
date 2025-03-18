@@ -2,6 +2,32 @@
 
 React Form Shield provides adapters for popular form libraries to simplify integration. These adapters enhance the form library's API with anti-spam protection features.
 
+## Global Configuration with FormShieldProvider
+
+All adapters work seamlessly with the `FormShieldProvider` component, which allows you to provide global configuration for all forms in your application. The adapters will automatically use the global configuration from the `FormShieldProvider` if available, but you can still override specific settings at the form level.
+
+```tsx
+import { FormShieldProvider } from "react-form-shield";
+
+function App() {
+    return (
+        <FormShieldProvider
+            settings={{
+                ENABLE_HONEYPOT: true,
+                ENABLE_TIME_DELAY: true,
+                ENABLE_CHALLENGE_DIALOG: true,
+            }}
+            onError={(error) => console.error(error)}>
+            {/* All forms within this provider will use the global configuration */}
+            <ContactForm />
+            <FeedbackForm />
+        </FormShieldProvider>
+    );
+}
+```
+
+For more information about the `FormShieldProvider`, see the [FormShieldProvider documentation](./index.md#formshieldprovider).
+
 ## Available Adapters
 
 - [React Hook Form Adapter](#react-hook-form-adapter)
