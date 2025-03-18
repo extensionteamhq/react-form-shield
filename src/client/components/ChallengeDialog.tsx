@@ -7,7 +7,7 @@
  * @module client/components/ChallengeDialog
  */
 
-import React, { useEffect } from "react";
+import React from "react";
 import { ChallengeDialogProps } from "../types";
 
 /**
