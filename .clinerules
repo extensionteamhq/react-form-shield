@@ -1,0 +1,70 @@
+# React Form Shield Project Rules
+
+## Code Organization
+
+- Client-side code is in `src/client/`
+- Server-side code is in `src/server/`
+- Examples are in `examples/`
+- Documentation is in `docs/`
+- Tests are alongside the files they test with `.test.ts` or `.test.tsx` extension
+
+## Naming Conventions
+
+- React components use PascalCase (e.g., `HoneypotField.tsx`, `ChallengeDialog.tsx`)
+- Hooks use camelCase with `use` prefix (e.g., `useFormShield.ts`)
+- Adapters use camelCase with `with` prefix (e.g., `withReactHookForm`, `withFormik`)
+- Utility functions use camelCase
+- Constants use UPPER_SNAKE_CASE
+- Types and interfaces use PascalCase
+
+## Documentation Standards
+
+- All exported functions, components, and types have JSDoc comments
+- JSDoc comments include a description, parameters, return values, and examples
+- API documentation is in Markdown format in the `docs/api/` directory
+- Examples are provided for all major features
+
+## Testing Standards
+
+- All components, hooks, utilities, and server-side code have tests
+- Tests use Jest and React Testing Library
+- Mock data and functions are used to isolate tests
+- Tests cover both success and error cases
+
+## Adapter Pattern
+
+- Adapters follow a consistent pattern:
+    - They accept the form library's main hook return value and options
+    - They return an enhanced object with form shield functionality
+    - They handle error cases and provide customization options
+    - They include comprehensive tests
+
+## Development Workflow
+
+- New features are developed with tests
+- Documentation is updated with new features
+- Examples are provided for new features
+- Memory bank is updated after significant changes
+
+## Project-Specific Patterns
+
+- Anti-spam features are implemented as separate modules
+- Components are designed to be customizable through props
+- Server-side validation duplicates client-side validation
+- Framework adapters translate between the core API and specific form libraries
+
+## Known Challenges
+
+- Server-Side Rendering: Components and hooks need to handle SSR correctly
+- TypeScript Types: Some types may need refinement for better developer experience
+- Bundle Size: Need to ensure tree-shaking works correctly
+- Accessibility: Components need to be tested for accessibility compliance
+- Browser Compatibility: Need to test across all target browsers
+
+## Tool Usage
+
+- Rollup is used for bundling with proper tree-shaking support
+- Jest and React Testing Library are used for testing
+- TypeScript is used for type safety
+- ESLint and Prettier are used for code style
+- class-variance-authority and clsx are used for component styling

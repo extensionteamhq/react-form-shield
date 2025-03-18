@@ -1,7 +1,8 @@
 # react-form-shield
 
-<div align="center">
-  <p>A comprehensive anti-spam solution for React forms</p>
+<div>
+  <p>Short: A comprehensive anti-spam solution for React forms</p>
+  <p>Long: React Form Shield is a comprehensive anti-spam solution for React forms that provides multi-layered protection against bot submissions. It's designed to work with any React form library through dedicated adapters, includes both client-side and server-side validation, and maintains accessibility standards.</p>
   
   [![License: GPL-3.0](https://img.shields.io/badge/License-GPL%203.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 </div>
