@@ -8,7 +8,8 @@
  */
 
 import React from "react";
-import { ChallengeDialogProps } from "../types";
+import { ChallengeDialogProps, ChallengePresentationProps } from "../types";
+import { challengeRegistry } from "../challenges";
 
 /**
  * Dialog for human verification challenge
@@ -58,26 +59,49 @@ export const ChallengeDialog: React.FC<ChallengeDialogProps> = ({
                     </p>
                 </div>
                 <div className="space-y-4 py-4">
-                    <div className="space-y-2">
-                        <label
-                            htmlFor="challenge-answer"
-                            className="block font-medium">
-                            {challenge.question}
-                        </label>
-                        <input
-                            id="challenge-answer"
-                            value={challengeAnswer}
-                            onChange={(e) => setChallengeAnswer(e.target.value)}
-                            onKeyDown={handleKeyDown}
-                            placeholder="Your answer"
-                            autoComplete="off"
-                            autoFocus
-                            className="w-full px-3 py-2 border rounded-md"
-                        />
-                        {error && (
-                            <p className="text-red-500 text-sm">{error}</p>
-                        )}
-                    </div>
+                    {/* Use custom component if available */}
+                    {challenge.type &&
+                    challengeRegistry.get(challenge.type)?.component ? (
+                        <div className="space-y-2">
+                            {React.createElement(
+                                challengeRegistry.get(challenge.type)!
+                                    .component!,
+                                {
+                                    challenge,
+                                    answer: challengeAnswer,
+                                    setAnswer: setChallengeAnswer,
+                                    onSubmit,
+                                } as ChallengePresentationProps
+                            )}
+                            {error && (
+                                <p className="text-red-500 text-sm">{error}</p>
+                            )}
+                        </div>
+                    ) : (
+                        // Default challenge UI
+                        <div className="space-y-2">
+                            <label
+                                htmlFor="challenge-answer"
+                                className="block font-medium">
+                                {challenge.question}
+                            </label>
+                            <input
+                                id="challenge-answer"
+                                value={challengeAnswer}
+                                onChange={(e) =>
+                                    setChallengeAnswer(e.target.value)
+                                }
+                                onKeyDown={handleKeyDown}
+                                placeholder="Your answer"
+                                autoComplete="off"
+                                autoFocus
+                                className="w-full px-3 py-2 border rounded-md"
+                            />
+                            {error && (
+                                <p className="text-red-500 text-sm">{error}</p>
+                            )}
+                        </div>
+                    )}
                 </div>
                 <div className="flex justify-end gap-2">
                     <button

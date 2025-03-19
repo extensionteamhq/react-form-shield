@@ -7,3 +7,6 @@
  */
 
 export { useFormShield } from './useFormShield';
+export { useHoneypot } from './useHoneypot';
+export { useTimeDelay } from './useTimeDelay';
+export { useChallenge } from './useChallenge';

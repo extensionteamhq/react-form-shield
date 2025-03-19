@@ -9,12 +9,44 @@
 /**
  * Type definition for challenge
  * @interface Challenge
+ * @property {string} type - The type of challenge
  * @property {string} question - The challenge question
  * @property {string} answer - The expected answer
+ * @property {Record<string, any>} [data] - Optional additional data specific to challenge type
  */
 export interface Challenge {
+    type: string;
     question: string;
     answer: string;
+    data?: Record<string, any>;
+}
+
+/**
+ * Props for challenge presentation components
+ * @interface ChallengePresentationProps
+ * @property {Challenge} challenge - The challenge to present
+ * @property {string} answer - The current answer
+ * @property {(answer: string) => void} setAnswer - Function to update the answer
+ * @property {() => void} onSubmit - Function to submit the answer
+ */
+export interface ChallengePresentationProps {
+    challenge: Challenge;
+    answer: string;
+    setAnswer: (answer: string) => void;
+    onSubmit: () => void;
+}
+
+/**
+ * Definition for a challenge type
+ * @interface ChallengeTypeDefinition
+ * @property {() => Challenge} generate - Function to generate a challenge of this type
+ * @property {(answer: string, challenge: Challenge) => boolean} [validate] - Optional function to validate an answer
+ * @property {React.ComponentType<ChallengePresentationProps>} [component] - Optional component for custom rendering
+ */
+export interface ChallengeTypeDefinition {
+    generate: () => Challenge;
+    validate?: (answer: string, challenge: Challenge) => boolean;
+    component?: React.ComponentType<ChallengePresentationProps>;
 }
 
 /**
@@ -112,11 +144,15 @@ export interface FormSubmissionData {
  * @property {AntiSpamSettings} settings - Anti-spam settings
  * @property {(error: string) => void} onError - Function to call when an error occurs
  * @property {string} honeypotFieldName - Custom honeypot field name
+ * @property {string[]} challengeTypes - Specific challenge types to use
+ * @property {string} preferredChallengeType - Preferred challenge type
  */
 export interface FormShieldOptions {
     settings?: Partial<AntiSpamSettings>;
     onError?: (error: string) => void;
     honeypotFieldName?: string;
+    challengeTypes?: string[];
+    preferredChallengeType?: string;
 }
 
 /**

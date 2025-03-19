@@ -1,8 +1,7 @@
 # react-form-shield
 
 <div>
-  <p>Short: A comprehensive anti-spam solution for React forms</p>
-  <p>Long: React Form Shield is a comprehensive anti-spam solution for React forms that provides multi-layered protection against bot submissions. It's designed to work with any React form library through dedicated adapters, includes both client-side and server-side validation, and maintains accessibility standards.</p>
+  <p>React Form Shield is a comprehensive anti-spam solution for React forms that provides multi-layered protection against bot submissions. It's designed to work with any React form library through dedicated adapters, includes both client-side and server-side validation, and maintains accessibility standards.</p>
   
   [![License: GPL-3.0](https://img.shields.io/badge/License-GPL%203.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 </div>
@@ -15,6 +14,7 @@
 - 🔒 **Server Validation**: Server-side validators for various backend environments
 - 📝 **TypeScript Support**: Full TypeScript definitions for better developer experience
 - ⚙️ **Customizable Settings**: Configurable features to meet different security needs
+- 🧠 **Custom Challenge Types**: Extensible system for creating your own verification challenges
 
 ## Table of Contents
 
@@ -299,7 +299,38 @@ const formShield = useFormShield({
 });
 ```
 
-### 5. Server-Side Validation
+### 5. Custom Challenge Types
+
+The library supports custom challenge types, allowing you to create your own verification challenges beyond the built-in math and text challenges.
+
+```jsx
+import { challengeRegistry } from "react-form-shield";
+
+// Register a custom challenge type
+challengeRegistry.register("image-captcha", {
+    // Function to generate a challenge
+    generate: () => ({
+        type: "image-captcha",
+        question: "Enter the characters shown in the image",
+        answer: "ABC123",
+        data: {
+            imageUrl: "https://example.com/captcha.jpg",
+        },
+    }),
+
+    // Optional custom component for rendering
+    component: ImageCaptchaComponent,
+});
+
+// Use in a form
+const formShield = useFormShield({
+    preferredChallengeType: "image-captcha",
+});
+```
+
+See the [Custom Challenge Types Example](./examples/custom-challenge-types/README.md) for more details.
+
+### 6. Server-Side Validation
 
 All client-side protections are duplicated on the server to prevent bypass attempts. The server-side middleware validates honeypot fields, time delay, and challenge completion.
 

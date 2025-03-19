@@ -26,3 +26,6 @@ export * from './adapters';
 
 // Export context
 export { FormShieldContext, useFormShieldContext } from './FormShieldContext';
+
+// Export challenges
+export * from './challenges';
